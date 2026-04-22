@@ -238,6 +238,16 @@ select option {
     color: var(--color-cream);
 }
 
+select optgroup {
+    background: var(--color-surface);
+    color: var(--color-sage);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
 .select-arrow {
     position: absolute;
     right: 16px;
