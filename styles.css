@@ -61,15 +61,6 @@ body {
     margin-bottom: 48px;
 }
 
-.logo-link {
-    display: inline-flex;
-    transition: opacity 0.3s var(--ease-out);
-}
-
-.logo-link:hover {
-    opacity: 0.75;
-}
-
 .logo {
     height: 36px;
     width: auto;
@@ -263,6 +254,113 @@ select option {
     color: var(--color-sage);
 }
 
+/* ---------- Field errors ---------- */
+
+.field-error {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: #e8a599;
+    margin-top: -2px;
+    animation: fadeUp 0.2s var(--ease-out) both;
+}
+
+.field.invalid input,
+.field.invalid select {
+    border-color: rgba(232, 165, 153, 0.55);
+}
+
+.field.invalid input:focus,
+.field.invalid select:focus {
+    box-shadow: 0 0 0 3px rgba(232, 165, 153, 0.15);
+}
+
+/* ---------- intl-tel-input dark theme overrides ---------- */
+
+.iti {
+    width: 100%;
+    display: block;
+}
+
+.iti__tel-input {
+    width: 100%;
+}
+
+.iti--separate-dial-code .iti__selected-dial-code {
+    color: var(--color-cream);
+    font-family: var(--font-body);
+}
+
+.iti__selected-country-primary {
+    background: transparent !important;
+    border-right: 1px solid var(--color-border);
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+    transition: background 0.2s ease;
+}
+
+.iti__selected-country-primary:hover,
+.iti__selected-country-primary[aria-expanded="true"] {
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.iti__arrow {
+    border-top-color: var(--color-text-muted) !important;
+}
+
+.iti__arrow--up {
+    border-bottom-color: var(--color-text-muted) !important;
+}
+
+.iti__dropdown-content {
+    background: var(--color-surface) !important;
+    border: 1px solid var(--color-border-strong) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--color-cream) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+    overflow: hidden;
+}
+
+.iti__search-input {
+    background: var(--color-field-bg) !important;
+    color: var(--color-cream) !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    font-family: var(--font-body) !important;
+    padding: 12px 16px !important;
+}
+
+.iti__search-input::placeholder {
+    color: var(--color-text-muted) !important;
+}
+
+.iti__country-list {
+    background: var(--color-surface) !important;
+    color: var(--color-cream) !important;
+}
+
+.iti__country {
+    padding: 10px 14px !important;
+    font-family: var(--font-body) !important;
+    font-size: 0.95rem !important;
+}
+
+.iti__country:hover,
+.iti__country.iti__highlight {
+    background: rgba(209, 220, 189, 0.12) !important;
+}
+
+.iti__country-name {
+    color: var(--color-cream) !important;
+}
+
+.iti__dial-code {
+    color: var(--color-text-muted) !important;
+}
+
+.iti__divider {
+    border-bottom-color: var(--color-border) !important;
+}
+
 /* ---------- Submit button ---------- */
 
 .submit-btn {
@@ -305,16 +403,6 @@ select option {
     transform: none;
 }
 
-.btn-arrow {
-    width: 16px;
-    height: 12px;
-    transition: transform 0.3s var(--ease-out);
-}
-
-.submit-btn:hover .btn-arrow {
-    transform: translateX(4px);
-}
-
 .form-footnote {
     font-family: var(--font-mono);
     font-size: 0.68rem;
@@ -339,6 +427,25 @@ select option {
     display: none;
 }
 
+.form-section.submitted .form-intro,
+.form-section.submitted .lead-form {
+    display: none !important;
+}
+
+.form-section.submitted {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-section.submitted .success-panel {
+    border: none;
+    background: transparent;
+    padding: 24px;
+    width: 100%;
+}
+
 .success-icon {
     width: 56px;
     height: 56px;
@@ -352,11 +459,6 @@ select option {
     font-weight: 400;
     letter-spacing: -0.01em;
     color: var(--color-cream);
-    margin-bottom: 8px;
-}
-
-.success-text {
-    color: var(--color-text-muted);
     margin-bottom: 24px;
 }
 

@@ -25,3 +25,6 @@ build/
 
 # Logs
 *.log
+
+# Claude Code runtime
+.claude/scheduled_tasks.lock
