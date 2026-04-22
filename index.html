@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Leads — De Club</title>
+    <link rel="shortcut icon" href="assets/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="page">
+        <header class="header">
+            <a href="https://declub.co.il" class="logo-link" aria-label="De Club">
+                <img src="assets/logo-declub.svg" alt="De Club" class="logo">
+            </a>
+        </header>
+
+        <section class="form-section">
+            <div class="form-intro">
+                <span class="eyebrow">Crew Intake</span>
+                <h1 class="title">Hot Leads</h1>
+                <p class="subtitle">Log a referral or hot lead for the crew to follow up on.</p>
+            </div>
+
+            <form
+                name="hot-leads"
+                method="POST"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                class="lead-form"
+                novalidate
+            >
+                <input type="hidden" name="form-name" value="hot-leads">
+                <p class="honeypot" aria-hidden="true">
+                    <label>Don't fill this out: <input name="bot-field"></label>
+                </p>
+
+                <div class="field">
+                    <label for="submitted_by" class="label">Submitted By <span class="required">*</span></label>
+                    <div class="select-wrap">
+                        <select id="submitted_by" name="submitted_by" required>
+                            <option value="" disabled selected>Select crew member</option>
+                            <option>Yuval Katz</option>
+                            <option>Yoni Katz</option>
+                            <option>Rachel Rinberg</option>
+                            <option>Kfir Goldazki</option>
+                            <option>Nir Elior</option>
+                            <option>Dan Adika</option>
+                            <option>Roy David</option>
+                            <option>Orr Mezamer</option>
+                            <option>Shahar Perry</option>
+                        </select>
+                        <svg class="select-arrow" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+                            <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="first_name" class="label">First Name <span class="required">*</span></label>
+                        <input type="text" id="first_name" name="first_name" autocomplete="given-name" required>
+                    </div>
+                    <div class="field">
+                        <label for="last_name" class="label">Last Name <span class="required">*</span></label>
+                        <input type="text" id="last_name" name="last_name" autocomplete="family-name" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="phone" class="label">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
+                </div>
+
+                <div class="field">
+                    <label for="email" class="label">Email <span class="hint">Recommended</span></label>
+                    <input type="email" id="email" name="email" autocomplete="email">
+                </div>
+
+                <div class="field">
+                    <label for="notes" class="label">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="4" placeholder="Anything the caller should know."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span class="btn-label">Submit Lead</span>
+                    <svg class="btn-arrow" viewBox="0 0 16 12" fill="none" aria-hidden="true">
+                        <path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <p class="form-footnote">Submissions are routed to the De Club crew for follow-up.</p>
+            </form>
+
+            <div class="success-panel" hidden role="status" aria-live="polite">
+                <svg class="success-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M7 12.5L10.5 16L17 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2 class="success-title">Lead logged</h2>
+                <p class="success-text">Thanks — the crew will take it from here.</p>
+                <button type="button" class="secondary-btn" id="submit-another">Submit another</button>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <span>© De Club</span>
+        </footer>
+    </main>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

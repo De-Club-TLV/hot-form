@@ -4,18 +4,26 @@
 A single-page web form for **DeClub** to collect referrals and hot leads from the crew. Deployed on **Netlify**.
 
 ## Stack
-- Plain HTML / CSS / vanilla JS (no framework)
+- Plain HTML / CSS / vanilla JS (no framework, no build step)
 - Netlify for hosting + deploy
-- Netlify Forms (or a custom webhook endpoint) for form submissions — TBD
+- **Netlify Forms** for submission capture — form name: `hot-leads`, honeypot: `bot-field`
 
 ## Commands
-- **Run locally**: open `index.html` in a browser, or `npx serve .` for a local dev server
+- **Run locally**: `npx serve . -p 4321` then open `http://localhost:4321`
 - **Deploy**: push to `main` — Netlify auto-deploys from the connected GitHub repo
+
+## Brand tokens (pulled from declub.co.il/styles.css)
+- Background: `#000000`
+- Accent (sage): `#D1DCBD` / hover green: `#B0C290`
+- Text (cream): `#f5f0e8`, muted: `#b0aba3`
+- Fonts: **Figtree** (body), **IBM Plex Mono** (labels, buttons)
+- Pill buttons (`border-radius: 100px`), inputs use `12px` radius, uppercase labels with letter-spacing.
 
 ## Conventions
 - Keep the page self-contained and lightweight
 - No build step unless genuinely required
-- Match DeClub's brand language (ask Yuval for the style guide when designing)
+- Mirror DeClub's minimal luxury aesthetic: dark, sage-accented, mono-spaced labels
+- Any form-field change: update both `index.html` AND the crew list / field set; Netlify auto-detects new fields on next deploy
 
 ## Agents Policy
 Project-specific agents live in `.claude/agents/`. **New agents require Yuval's approval.** Only create one when the task genuinely needs something Dasha's general agents don't cover.
