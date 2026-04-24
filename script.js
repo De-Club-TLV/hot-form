@@ -89,10 +89,40 @@
 
     /* ---------- Submit ---------- */
 
-    const encode = (data) =>
-        Object.keys(data)
-            .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
-            .join('&');
+    // Shared HMAC secret with the Netlify Function env var HOT_FORM_HMAC_SECRET.
+    // Browser can see this; real anti-abuse lives at the edge. Same tradeoff
+    // as the main declub.co.il contact modal.
+    const HMAC_SECRET = '5079ca851b2f205e0fcd49bf281a3930c323218fc322a856dd13da9aff9b1474';
+    const SUBMIT_ENDPOINT = '/.netlify/functions/submit-lead';
+
+    function sortKeys(val) {
+        if (Array.isArray(val)) return val.map(sortKeys);
+        if (val && typeof val === 'object') {
+            const out = {};
+            for (const k of Object.keys(val).sort()) out[k] = sortKeys(val[k]);
+            return out;
+        }
+        return val;
+    }
+
+    function canonicalJson(obj) {
+        return JSON.stringify(sortKeys(obj));
+    }
+
+    async function hmacSha256Hex(secret, message) {
+        const enc = new TextEncoder();
+        const key = await crypto.subtle.importKey(
+            'raw',
+            enc.encode(secret),
+            { name: 'HMAC', hash: 'SHA-256' },
+            false,
+            ['sign']
+        );
+        const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
+        return Array.from(new Uint8Array(sig))
+            .map((b) => b.toString(16).padStart(2, '0'))
+            .join('');
+    }
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -111,23 +141,35 @@
         submitBtn.disabled = true;
         btnLabel.textContent = 'Submitting…';
 
-        const formData = new FormData(form);
-        // Replace phone with E.164 formatted number
-        if (typeof iti.getNumber === 'function') {
-            formData.set('phone', iti.getNumber());
+        const fd = new FormData(form);
+        const payload = {
+            submitted_by: (fd.get('submitted_by') || '').toString(),
+            first_name: (fd.get('first_name') || '').toString().trim(),
+            last_name: (fd.get('last_name') || '').toString().trim(),
+            phone: typeof iti.getNumber === 'function' ? iti.getNumber() : (fd.get('phone') || '').toString(),
+            phone_country: (iti.getSelectedCountryData().iso2 || '').toLowerCase(),
+            email: (fd.get('email') || '').toString().trim() || undefined,
+            notes: (fd.get('notes') || '').toString().trim() || undefined,
+        };
+        for (const k of ['email', 'notes']) {
+            if (payload[k] === undefined) delete payload[k];
         }
-        formData.set('phone_country', iti.getSelectedCountryData().iso2 || '');
-
-        const data = {};
-        formData.forEach((value, key) => (data[key] = value));
 
         try {
-            const response = await fetch('/', {
+            const canonical = canonicalJson(payload);
+            const signature = await hmacSha256Hex(HMAC_SECRET, canonical);
+            const response = await fetch(SUBMIT_ENDPOINT, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: encode(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Webhook-Signature': signature,
+                },
+                body: canonical,
             });
-            if (!response.ok) throw new Error('Submission failed');
+            if (!response.ok) {
+                const text = await response.text().catch(() => '');
+                throw new Error('Submission failed: ' + response.status + ' ' + text.slice(0, 200));
+            }
 
             formSection.classList.add('submitted');
             successPanel.hidden = false;
