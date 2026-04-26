@@ -92,7 +92,7 @@
     // Shared HMAC secret with the Netlify Function env var HOT_FORM_HMAC_SECRET.
     // Browser can see this; real anti-abuse lives at the edge. Same tradeoff
     // as the main declub.co.il contact modal.
-    const HMAC_SECRET = '5079ca851b2f205e0fcd49bf281a3930c323218fc322a856dd13da9aff9b1474';
+    const HMAC_SECRET = 'd137087578ec6d752eb872f12474b63a8d1803a74b76729e25384edf3a8d2d08';
     const SUBMIT_ENDPOINT = '/.netlify/functions/submit-lead';
 
     function sortKeys(val) {
